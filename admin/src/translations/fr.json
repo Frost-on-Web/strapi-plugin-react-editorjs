@@ -1,1 +1,10 @@
-{}
+{
+  "plugin.name": "EditorJS",
+  "plugin.description": "Plugin hiding the standard WYSIWYG editor and replacing it with Editor.js",
+  "settings.title": "EditorJS",
+  "settings.page-title": "Configuration",
+  "settings.subtitle": "Edit settings of your EditorJS plugin",
+  "settings.content-title": "Set API key for EditorJS editor.",
+  "settings.save-button": "Save",
+  "settings.success-message": "Settings successfully updated"
+}

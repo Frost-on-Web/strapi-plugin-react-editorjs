@@ -1,0 +1,21 @@
+{
+  "extends": "@strapi/typescript-utils/tsconfigs/server",
+
+  "compilerOptions": {
+    "target": "ES2022",
+    "outDir": "dist",
+    "rootDir": "."
+  },
+
+  "include": [ "server", "types/custom.d.tsm.d.ts", "utils/index.ts" ],
+
+  "exclude": [
+    "node_modules/",
+    "dist/",
+
+    // Do not include admin files in the server compilation
+    "admin/",
+    // Do not include test files
+    "**/*.test.ts"
+  ]
+}

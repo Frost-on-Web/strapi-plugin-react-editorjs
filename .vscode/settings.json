@@ -1,0 +1,21 @@
+{
+  "files.exclude": {
+    ".vscode": true,
+    ".github": true,
+    ".editorconfig": true,
+    ".gitattributes": true,
+    ".gitignore": true,
+    ".npmignore": true,
+    ".releaserc.js": true,
+    ".yarnrc.yml": true,
+    "LICENSE": true,
+    "CHANGELOG.md": true,
+    "strapi-server.js": true,
+    "strapi-admin.js": true,
+    "yarn.lock": true,
+    "README.md": true,
+    "node_modules": true,
+    "dist": true,
+    ".yarn": true
+  }
+}
