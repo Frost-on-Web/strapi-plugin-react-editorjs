@@ -1,7 +1,7 @@
 import en from "./en.json";
 import fr from "./fr.json";
 
-import { pluginId } from "@/utils";
+import { pluginId } from "../utils";
 
 /**
  * We use the "en.json" file as the reference for the translations keys.
@@ -25,7 +25,7 @@ const trads: { [key: string]: TranslationsDefinition } = {
  * @param id The short-key of a translated label.
  * @returns The translation key which reference a translated label.
  */
-const getTradKey = (id: [keyof TranslationsDefinition]) => `${pluginId}.${id}`;
+const getTradKey = (id: keyof TranslationsDefinition) => `${pluginId}.${id}`;
 
 /**
  * Type-safe function to get the `formatMessage` arguments (used by the `useIntl` hook).
@@ -34,10 +34,7 @@ const getTradKey = (id: [keyof TranslationsDefinition]) => `${pluginId}.${id}`;
  * @param defaultMessage
  * @returns
  */
-const getTrad = (
-  id: [keyof TranslationsDefinition],
-  defaultMessage?: string
-) => {
+const getTrad = (id: keyof TranslationsDefinition, defaultMessage?: string) => {
   return { id: getTradKey(id), defaultMessage };
 };
 

@@ -11,9 +11,6 @@ import { LocalFileData } from "get-file-object-from-local-path";
 
 import { pluginId } from "../utils";
 
-// ! A VALIDER
-const DEFAULT_TOOLPACK_PACKAGE = "editorjs-default-toolpack";
-
 export default ({ strapi }: { strapi: Strapi }) => ({
   /**
    * Retrieve meta information from a URL (in order to display them in the editor, like a preview thing)
@@ -115,65 +112,6 @@ export default ({ strapi }: { strapi: Strapi }) => ({
         },
         500
       );
-    }
-  },
-
-  /**
-   * Send the plugin's configuration object from the Strapi ConfigProvider
-   */
-  config: async (ctx) => {
-    const config = strapi.config.get(`plugin.${pluginId}`);
-    ctx.response.body = config;
-  },
-
-  /**
-   * Try to get the toolpack file and send it (JSON format)
-   */
-  serveToolpack: async (ctx) => {
-    // cf file : ../services/toolpack.ts
-    const toolpackService = strapi.plugin(pluginId).service("toolpack");
-    const toolpackPackageName = toolpackService.getToolpackPackageName();
-
-    // try to load the config package
-    let toolpackFilePath =
-      toolpackService.tryLoadFromPackage(toolpackPackageName);
-
-    // if it has failed, and it wasn't the default, try the default
-    if (
-      toolpackFilePath === undefined &&
-      toolpackPackageName !== DEFAULT_TOOLPACK_PACKAGE
-    ) {
-      toolpackFilePath = toolpackService.tryLoadFromPackage(
-        DEFAULT_TOOLPACK_PACKAGE
-      );
-    }
-
-    // if it has still failed, log and return an error
-    if (toolpackFilePath === undefined) {
-      ctx.response.status = 400;
-      return;
-    }
-
-    // otherwise send the toolpack file
-    const fileStream = fs.createReadStream(toolpackFilePath);
-    ctx.response.body = fileStream;
-    ctx.response.type = "js";
-  },
-
-  /**
-   * Send HTTP 200 if the toolpack is valid, otherwise send HTTP 400
-   */
-  checkToolpackValid: async (ctx) => {
-    const toolpackService = strapi.plugin(pluginId).service("toolpack");
-    const toolpackPackageName = toolpackService.getToolpackPackageName();
-
-    const ret = toolpackService.packageIsValid(toolpackPackageName);
-
-    if (ret.valid) {
-      ctx.response.status = 200;
-    } else {
-      ctx.response.status = 400;
-      ctx.response.body = ret.reason;
     }
   },
 });

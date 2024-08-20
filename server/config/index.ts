@@ -1,6 +1,4 @@
 export default {
-  default: {
-    toolpack: "editorjs-default-toolpack",
-  },
+  default: {},
   validator(config) {},
 };

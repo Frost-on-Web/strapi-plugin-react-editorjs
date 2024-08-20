@@ -9,9 +9,9 @@ type MediaLibComponentProps = {
 };
 
 const MediaLibComponent = ({
-  isOpen,
-  onChange,
-  onToggle,
+  isOpen = false,
+  onChange = () => {},
+  onToggle = () => {},
 }: MediaLibComponentProps) => {
   // const { components } = useLibrary();
   // const [data, setData] = useState(null);
@@ -51,12 +51,6 @@ const MediaLibComponent = ({
     //   onSelectAssets={handleSelectAssets}
     // />
   );
-};
-
-MediaLibComponent.defaultProps = {
-  isOpen: false,
-  onChange: () => {},
-  onToggle: () => {},
 };
 
 export default MediaLibComponent;

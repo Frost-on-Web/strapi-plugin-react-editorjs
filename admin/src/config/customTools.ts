@@ -1,51 +1,58 @@
 import { pluginId } from "../../../utils";
 
+import Paragraph from "@editorjs/paragraph";
 import Embed from "@editorjs/embed";
 import Table from "@editorjs/table";
-// import List from "@editorjs/list";
-// import Warning from "@editorjs/warning";
-// import Code from "@editorjs/code";
-// import LinkTool from "@editorjs/link";
-// import Raw from "@editorjs/raw";
+import List from "@editorjs/list";
+import Warning from "@editorjs/warning";
 import Header from "@editorjs/header";
-// import Marker from "@editorjs/marker";
-// import CheckList from "@editorjs/checklist";
-// import Delimiter from "@editorjs/delimiter";
-// import InlineCode from "@editorjs/inline-code";
+import Marker from "@editorjs/marker";
+import CheckList from "@editorjs/checklist";
+import Delimiter from "@editorjs/delimiter";
+
+// import Quote from "@editorjs/quote";
+// import LinkTool from "@editorjs/link";
 
 const customTools = {
+  paragraph: {
+    // We override the by-default "paragraph" plugin in order to accept (just one) blank line : https://github.com/codex-team/editor.js/issues/2218
+    class: Paragraph,
+    inlineToolbar: true,
+    config: {
+      preserveBlank: true,
+    },
+  },
   embed: Embed,
   table: {
     class: Table,
     inlineToolbar: true,
   },
-  // list: {
-  //   class: List,
-  //   inlineToolbar: true,
-  // },
-  // warning: {
-  //   class: Warning,
-  //   inlineToolbar: true,
-  //   config: {
-  //     titlePlaceholder: "Title",
-  //     messagePlaceholder: "Message",
-  //   },
-  // },
-  // code: Code,
-  // LinkTool: {
-  //   class: LinkTool,
-  //   config: {
-  //     endpoint: `/api/${pluginId}/link`,
-  //   },
-  // },
-  // raw: {
-  //   class: Raw,
-  //   inlineToolbar: true,
-  // },
+  list: {
+    class: List,
+    inlineToolbar: true,
+  },
+  warning: {
+    class: Warning,
+    inlineToolbar: true,
+    config: {
+      titlePlaceholder: "Title",
+      messagePlaceholder: "Message",
+    },
+  },
   header: {
     class: Header,
     inlineToolbar: true,
   },
+  marker: {
+    class: Marker,
+    inlineToolbar: true,
+  },
+  checklist: {
+    class: CheckList,
+    inlineToolbar: true,
+  },
+  delimiter: Delimiter,
+
   // quote: {
   //   class: Quote,
   //   inlineToolbar: true,
@@ -54,16 +61,12 @@ const customTools = {
   //     captionPlaceholder: 'Quote`s author',
   //   },
   // },
-  // marker: {
-  //   class: Marker,
-  //   inlineToolbar: true,
+  // LinkTool: {
+  //   class: LinkTool,
+  //   config: {
+  //     endpoint: `/api/${pluginId}/link`,
+  //   },
   // },
-  // checklist: {
-  //   class: CheckList,
-  //   inlineToolbar: true,
-  // },
-  // delimiter: Delimiter,
-  // inlineCode: InlineCode,
 };
 
 export default customTools;

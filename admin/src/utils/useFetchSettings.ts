@@ -1,4 +1,6 @@
 import { useFetchClient } from "@strapi/helper-plugin";
+
+import { TPluginSettings } from "../../../types/config";
 import { pluginId } from "../utils";
 
 /**
@@ -14,17 +16,17 @@ import { pluginId } from "../utils";
  *
  */
 
-const { get, post } = useFetchClient();
+const useFetchSettings = () => {
+  const { get, post } = useFetchClient();
 
-const fetchSettings = {
-  getSettings: async () => {
-    const data = await get(`/${pluginId}/settings`);
-    return data;
-  },
-  setSettings: async (data: string) => {
-    return await post(`/${pluginId}/settings`, {
-      apiKey: data,
-    });
-  },
+  return {
+    getSettings: async () => {
+      return await get<TPluginSettings>(`/${pluginId}/settings`);
+    },
+    setSettings: async (data: TPluginSettings) => {
+      return await post(`/${pluginId}/settings`, data);
+    },
+  };
 };
-export default fetchSettings;
+
+export default useFetchSettings;

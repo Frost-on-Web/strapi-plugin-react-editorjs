@@ -105,7 +105,8 @@
   ],
   "scripts": {
     "dev": "tsc -p tsconfig.server.json -w",
-    "build": "tsc -p tsconfig.server.json"
+    "build": "tsc -p tsconfig.server.json",
+    "build-admin": "tsc -p tsconfig.json"
   },
   "license": "MIT",
   "files": [

@@ -1,3 +1,4 @@
+import { Strapi } from "@strapi/strapi";
 import { prefixPluginTranslations } from "@strapi/helper-plugin";
 
 import pluginPkg from "../../package.json";
@@ -6,38 +7,13 @@ import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
 import Wysiwyg from "./components/Wysiwyg";
 
-import { getTrad, pluginId } from "./utils";
+import { pluginId } from "./utils";
+import { getTrad } from "./translations";
 
 export default {
   register(app: any) {
-    app.addFields({ type: "wysiwyg", Component: Wysiwyg });
-
-    app.createSettingSection(
-      {
-        id: pluginId,
-        intlLabel: {
-          id: `${pluginId}.plugin.name`,
-          defaultMessage: pluginPkg.strapi.name,
-        },
-      },
-      [
-        {
-          intlLabel: {
-            id: getTrad("settings.page-title"),
-            defaultMessage: "Configuration",
-          },
-          id: "settings",
-          to: `/settings/${pluginId}`,
-          Component: async () => {
-            return import("./containers/Settings");
-          },
-          // permissions: pluginPermissions["settings"],
-        },
-      ]
-    );
-
     app.registerPlugin({
-      id: { pluginId },
+      id: pluginId,
       icon: PluginIcon,
       name: pluginPkg.strapi.name,
       description: pluginPkg.strapi.description,
@@ -49,6 +25,41 @@ export default {
 
       initializer: Initializer,
     });
+
+    app.addMenuLink({
+      to: `/plugins/${pluginId}`,
+      icon: PluginIcon,
+      intlLabel: {
+        id: `${pluginId}.plugin.name`,
+        defaultMessage: pluginPkg.strapi.name,
+      },
+      Component: async () => {
+        return await import("./containers/App");
+      },
+    });
+
+    app.createSettingSection(
+      {
+        id: pluginId,
+        intlLabel: {
+          id: `${pluginId}.plugin.name`,
+          defaultMessage: pluginPkg.strapi.name,
+        },
+      },
+      [
+        {
+          intlLabel: getTrad("settings.page-title", "Configuration"),
+          id: "settings",
+          to: `/settings/${pluginId}`,
+          Component: async () => {
+            return import("./containers/Settings");
+          },
+          // permissions: pluginPermissions["settings"],
+        },
+      ]
+    );
+
+    app.addFields({ type: "wysiwyg", Component: Wysiwyg });
   },
 
   bootstrap() {},

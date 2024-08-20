@@ -4,13 +4,14 @@
   "compilerOptions": {
     "target": "ESNext",
     "strict": true,
-    "baseUrl": "./admin/src",
-    "paths": {
-      "@/*": ["./*"]
-    }
+    // Ici non plus (comme dans Strapi) les "paths" ne fonctionnent pas
+    // "baseUrl": "./admin/src",
+    // "paths": {
+    //   "@/*": ["./*"]
+    // }
   },
 
-  "include": ["admin", "types/custom.d.ts", "utils/index.ts"],
+  "include": ["admin", "types/*.d.ts", "utils/index.ts"],
 
   "exclude": [
     "node_modules/",

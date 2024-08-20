@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useIntl } from "react-intl";
 
 import cn from "classnames";
@@ -8,6 +9,9 @@ import { Typography } from "@strapi/design-system/Typography";
 import Editor from "../Editorjs";
 import Wrapper from "./wrapper";
 
+/**
+ * TODO : On devrait pouvoir retrouver et utiliser le type natif de Strapi (= qui définit un CustomField)
+ */
 type WysiwygProps = {
   name: string;
   onChange: (e: any) => void;
@@ -29,20 +33,28 @@ const Wysiwyg = ({
   onChange,
   intlLabel,
   description,
-  required,
-  disabled,
-  error,
-  className,
-  style,
-  value,
+  required = false,
+  disabled = false,
+  error = undefined,
+  className = "",
+  style = {},
+  value = "",
 }: WysiwygProps) => {
   const { formatMessage } = useIntl();
+
+  const [displayTechnicalData, setDisplayTechnicalData] = useState(false);
+
+  const EditorProps = { name, value, disabled, onChange };
 
   return (
     <>
       <Wrapper className={cn(className)} style={style}>
         <Box>
-          <Typography variant="pi" fontWeight="bold">
+          <Typography
+            variant="pi"
+            fontWeight="bold"
+            onClick={() => setDisplayTechnicalData(!displayTechnicalData)}
+          >
             {formatMessage(intlLabel)}
           </Typography>
           {required && (
@@ -52,12 +64,19 @@ const Wysiwyg = ({
           )}
         </Box>
 
-        <Editor
-          name={name}
-          value={value}
-          disabled={disabled}
-          onChange={onChange}
-        />
+        <Typography
+          variant="omega"
+          style={{
+            display: displayTechnicalData ? "block" : "none",
+            margin: "0.5rem 0",
+            padding: "0.5rem",
+            border: "1px solid #f0f0f0",
+          }}
+        >
+          {JSON.stringify(EditorProps)}
+        </Typography>
+
+        <Editor {...EditorProps} />
 
         {error && (
           <Typography variant="pi" textColor="danger600">
@@ -71,20 +90,6 @@ const Wysiwyg = ({
       </Wrapper>
     </>
   );
-};
-
-// Default props (only for the optionals ones...)
-Wysiwyg.defaultProps = {
-  intlLabel: "",
-  description: "",
-
-  required: false,
-  disabled: false,
-  error: undefined,
-  className: "",
-  style: {},
-  value: "",
-  tabIndex: "0",
 };
 
 export default Wysiwyg;

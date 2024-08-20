@@ -2,4 +2,6 @@
 import * as utils from "../../../utils";
 const pluginId = utils.pluginId;
 
-export { pluginId };
+import useFetchSettings from "./useFetchSettings";
+
+export { pluginId, useFetchSettings };

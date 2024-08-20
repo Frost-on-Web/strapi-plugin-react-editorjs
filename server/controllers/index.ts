@@ -1,3 +1,3 @@
-import editorjs from "./editorjs";
+import settings from "./settings";
 
-export default { editorjs };
+export default { settings };

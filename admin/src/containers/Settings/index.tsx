@@ -1,127 +1,113 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 
-import { useNotification, LoadingIndicatorPage } from "@strapi/helper-plugin";
+import { LoadingIndicatorPage, useNotification } from "@strapi/helper-plugin";
 
-import { Box } from "@strapi/design-system/Box";
-import { Stack } from "@strapi/design-system/Stack";
-import { Button } from "@strapi/design-system/Button";
-import { Grid, GridItem } from "@strapi/design-system/Grid";
 import { HeaderLayout } from "@strapi/design-system/Layout";
 import { ContentLayout } from "@strapi/design-system/Layout";
+import { Box } from "@strapi/design-system/Box";
 import { Typography } from "@strapi/design-system/Typography";
-import { TextInput } from "@strapi/design-system/TextInput";
+import { Button } from "@strapi/design-system/Button";
 
 import { Check } from "@strapi/icons";
 
-import taskRequests from "../../api/settings";
+import { TPluginSettings } from "../../../../types/config";
 
-import { getTrad } from "@/utils";
+import { getTrad } from "../../translations";
+
+import { useFetchSettings } from "../../utils";
 
 const Settings = () => {
   const { formatMessage } = useIntl();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [currentApiKey, setCurrentApiKey] = useState<string>("");
+  const { getSettings } = useFetchSettings();
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [settingProp, setSettingProp] = useState<TPluginSettings>({
+    myCustomSetting: "",
+  });
 
   useEffect(() => {
     setIsLoading(true);
 
-    const getApiKey = async () => {
-      const data = await taskRequests.getSettings();
+    const asyncServerRequest = async () => {
+      const { data } = await getSettings();
       if (data) {
         setIsLoading(false);
-        return setCurrentApiKey(data.data.apiKey);
+        return setSettingProp(data);
       }
     };
 
-    getApiKey();
+    asyncServerRequest();
   }, []);
 
-  const handleChange = (e: any) => {
-    setCurrentApiKey(e.target.value);
-  };
+  if (isLoading) return <LoadingIndicatorPage />;
 
   return (
     <>
       <HeaderLayout
         id="title"
-        title={formatMessage({
-          id: getTrad("settings.title"),
-          defaultMessage: "TinyMCE",
-        })}
-        subtitle={formatMessage({
-          id: getTrad("settings.subtitle"),
-          defaultMessage: "Manage the settings of your TinyMCE plugin",
-        })}
+        title={formatMessage(getTrad("settings.title", "EditorJS Settings"))}
+        subtitle={formatMessage(
+          getTrad(
+            "settings.subtitle",
+            "Manage the settings of your TinyMCE plugin"
+          )
+        )}
         primaryAction={
-          isLoading ? null : <SubmitButton settings={{ currentApiKey }} />
+          isLoading ? null : (
+            <SubmitButton settings={{ myCustomSetting: "Nouveau test" }} />
+          )
         }
-      ></HeaderLayout>
-      {isLoading ? (
-        <LoadingIndicatorPage />
-      ) : (
-        <ContentLayout>
-          <Box
-            background="neutral0"
-            hasRadius
-            shadow="filterShadow"
-            paddingTop={6}
-            paddingBottom={6}
-            paddingLeft={7}
-            paddingRight={7}
-          >
-            <Stack size={3}>
-              <Typography>
-                {formatMessage({
-                  id: getTrad("settings.content-title"),
-                  defaultMessage: "Set your API key for TinyMCE editor.",
-                })}
-              </Typography>
-              <Grid gap={6}>
-                <GridItem col={8} s={18}>
-                  <TextInput
-                    id="api-key"
-                    name="key"
-                    onChange={handleChange}
-                    label={formatMessage({
-                      id: getTrad("settings.input-title"),
-                      defaultMessage: "API key",
-                    })}
-                    value={currentApiKey}
-                    placeholder={formatMessage({
-                      id: getTrad("settings.input-placeholder"),
-                      defaultMessage: "ex: ADASFNASF46564SAD",
-                    })}
-                  />
-                </GridItem>
-              </Grid>
-            </Stack>
-          </Box>
-        </ContentLayout>
-      )}
+      />
+      <ContentLayout>
+        <Box
+          background="neutral0"
+          hasRadius
+          shadow="filterShadow"
+          paddingTop={6}
+          paddingBottom={6}
+          paddingLeft={7}
+          paddingRight={7}
+        >
+          <Typography>
+            <span
+              style={{
+                backgroundColor: "#ccc",
+                display: "inline-block",
+                width: "50%",
+                border: "1px solid #888",
+                padding: "0.5rem 1rem",
+                color: "#000",
+              }}
+            >
+              {isLoading ? "[Loading...]" : JSON.stringify(settingProp)}
+            </span>
+          </Typography>
+        </Box>
+      </ContentLayout>
     </>
   );
 };
 
-function SubmitButton({ settings }: { settings: { currentApiKey: string } }) {
-  const toggleNotification = useNotification();
+function SubmitButton({ settings }: { settings: TPluginSettings }) {
   const { formatMessage } = useIntl();
+  const { setSettings } = useFetchSettings();
+  const toggleNotification = useNotification();
 
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSubmit = async () => {
     setIsSaving(true);
 
-    await taskRequests.setSettings(settings.currentApiKey);
-    setIsSaving(false);
+    await setSettings(settings);
 
+    setIsSaving(false);
     toggleNotification({
       type: "success",
-      message: formatMessage({
-        id: getTrad("settings.success-message"),
-        defaultMessage: "Settings successfully updated",
-      }),
+      message: formatMessage(
+        getTrad("settings.success-message", "Settings successfully updated")
+      ),
     });
   };
 
@@ -133,10 +119,7 @@ function SubmitButton({ settings }: { settings: { currentApiKey: string } }) {
       loading={isSaving}
       size="L"
     >
-      {formatMessage({
-        id: getTrad("settings.save-button"),
-        defaultMessage: "Save",
-      })}
+      {formatMessage(getTrad("settings.save-button", "Save"))}
     </Button>
   );
 }

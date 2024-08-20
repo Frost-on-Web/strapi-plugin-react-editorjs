@@ -1,2 +1,2 @@
-export * from "./Config";
-export * from "./Toolpack";
+export * from "./config";
+export * from "./editorjs";

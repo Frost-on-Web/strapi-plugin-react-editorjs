@@ -10,30 +10,6 @@
  *
  */
 
-export default {
-  admin: {
-    type: "admin",
-    routes: [
-      {
-        method: "GET",
-        path: "/link",
-        handler: "editorjs.link",
-      },
-      {
-        method: "POST",
-        path: "/image/byFile",
-        handler: "editorjs.byFile",
-      },
-      {
-        method: "POST",
-        path: "/image/byUrl",
-        handler: "editorjs.byURL",
-      },
-      {
-        method: "GET",
-        path: "/config",
-        handler: "editorjs.config",
-      },
-    ],
-  },
-};
+import settings from "./settings";
+
+export default { settings };

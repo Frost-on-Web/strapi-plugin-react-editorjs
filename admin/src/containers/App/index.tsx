@@ -9,19 +9,17 @@ import { Switch, Route } from "react-router-dom";
 import { AnErrorOccurred } from "@strapi/helper-plugin";
 
 // Utils
-import { pluginId } from "@/utils";
+import { pluginId } from "../../utils";
 
 // Containers
 import HomePage from "../HomePage";
 
 const App = () => {
   return (
-    <div>
-      <Switch>
-        <Route path={`/plugins/${pluginId}`} component={HomePage} exact />
-        <Route component={AnErrorOccurred} />
-      </Switch>
-    </div>
+    <Switch>
+      <Route path={`/plugins/${pluginId}`} component={HomePage} exact />
+      <Route component={AnErrorOccurred} />
+    </Switch>
   );
 };
 

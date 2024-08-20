@@ -1,5 +1,4 @@
-type TConfig = {
-  toolpack?: string;
+type TPluginSettings = {
+  myCustomSetting: string;
 };
-
-export type { TConfig };
+export type { TPluginSettings };
