@@ -68,7 +68,7 @@ const Wysiwyg = ({
           variant="omega"
           style={{
             display: displayTechnicalData ? "block" : "none",
-            margin: "0.5rem 0",
+            marginBottom: "0.5rem",
             padding: "0.5rem",
             border: "1px solid #f0f0f0",
           }}

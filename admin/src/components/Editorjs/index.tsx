@@ -25,40 +25,40 @@ const Editor = (props: EditorProps) => {
 
   console.log("Editor properties :", props);
 
-  const [editorInstance, setEditorInstance] = useState();
-  const [mediaLibBlockIndex, setMediaLibBlockIndex] = useState(-1);
-  const [isMediaLibOpen, setIsMediaLibOpen] = useState(false);
+  // const [editorInstance, setEditorInstance] = useState();
+  // const [mediaLibBlockIndex, setMediaLibBlockIndex] = useState(-1);
+  // const [isMediaLibOpen, setIsMediaLibOpen] = useState(false);
 
-  const mediaLibToggleFunc = useCallback(
-    getToggleFunc({
-      openStateSetter: setIsMediaLibOpen,
-      indexStateSetter: setMediaLibBlockIndex,
-    }),
-    []
-  );
+  // const mediaLibToggleFunc = useCallback(
+  //   getToggleFunc({
+  //     openStateSetter: setIsMediaLibOpen,
+  //     indexStateSetter: setMediaLibBlockIndex,
+  //   }),
+  //   []
+  // );
 
-  const handleMediaLibChange = useCallback(
-    (data) => {
-      changeFunc({
-        indexStateSetter: setMediaLibBlockIndex,
-        data,
-        index: mediaLibBlockIndex,
-        editor: editorInstance,
-      });
+  // const handleMediaLibChange = useCallback(
+  //   (data) => {
+  //     changeFunc({
+  //       indexStateSetter: setMediaLibBlockIndex,
+  //       data,
+  //       index: mediaLibBlockIndex,
+  //       editor: editorInstance,
+  //     });
 
-      mediaLibToggleFunc();
-    },
-    [mediaLibBlockIndex, editorInstance]
-  );
+  //     mediaLibToggleFunc();
+  //   },
+  //   [mediaLibBlockIndex, editorInstance]
+  // );
 
-  const mediaLibTool = {
-    mediaLib: {
-      class: MediaLibAdapter,
-      config: {
-        mediaLibToggleFunc,
-      },
-    },
-  };
+  // const mediaLibTool = {
+  //   mediaLib: {
+  //     class: MediaLibAdapter,
+  //     config: {
+  //       mediaLibToggleFunc,
+  //     },
+  //   },
+  // };
 
   if (!value) return null;
 
@@ -73,7 +73,7 @@ const Editor = (props: EditorProps) => {
               const api = editor.dangerouslyLowLevelInstance;
 
               api.isReady.then(() => {
-                setEditorInstance(api);
+                // setEditorInstance(api);
 
                 if (value && JSON.parse(value).blocks.length) {
                   api.render(JSON.parse(value));
